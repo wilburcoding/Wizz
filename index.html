@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Wizz Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap" rel="stylesheet">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.17.0/mapbox-gl.js"></script>
+  <script src="https://kit.fontawesome.com/3f34c302de.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <div id="phone-content">
+    <div id="notch">
+      <div id="camera">
+
+      </div>
+    </div>
+    <div id="screen">
+      <div id="screen1" class="screen">
+        <img class="icon" src="/assets/wizzlogo.png" />
+        <h1 style="font-size:40px;margin-top:10px;margin-bottom:4px;text-align: center;">Wizz App Demo</h1>
+        <p style="font-size:18px;margin-top:1px;margin-bottom:10px;text-align: center;width:90%;">Please fill out the
+          information below to get started!</p>
+        <input type="text" placeholder="Full Name*" id="s1-name" style="font-size:16px" />
+        <input type="text" placeholder="Email Address*" id="s1-email" style="font-size:16px" />
+        <div style="display:flex;flex-direction: row;width:calc(70% + 12px);margin-top:5px;">
+          <select id="s1-gender">
+            <option selected disabled value="select">Select Gender*</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Prefer Not To Say">Prefer Not To Say</option>
+          </select>
+          <select style="margin-left:10px;" id="s1-age">
+            <option selected disabled value="select">Select Age*</option>
+            <option value="under18">Under 18</option>
+            <option value="18-24">18-24</option>
+            <option value="25-34">25-34</option>
+            <option value="35-44">35-44</option>
+            <option value="45-54">45-54</option>
+            <option value="55-64">55-64</option>
+            <option value="65+">65+</option>
+            <option value="Prefer Not To Say">Prefer Not To Say</option>
+          </select>
+        </div>
+        <button id="s1-submit" disabled>Get Started</button>
+
+      </div>
+      <div id="screen2" class="screen">
+        <div id="darkcover">
+
+        </div>
+        <div id="info">
+          <h2 style="margin-top:0px;margin-bottom:5px;font-size:21px;">Wizz Demo</h2>
+          <div style="display: flex;flex-direction: row;align-items: center;justify-content: flex-start;">
+            <p style="margin-top:0px;margin-bottom:5px;font-size:14px;margin-right:10px;" id="infop">Welcome to Wizz!
+              Let's show you
+              around to all the features offered by this useful app. Click this to continue!</p>
+            <i class="fa-solid fa-arrow-down" id="infoicon"></i>
+
+          </div>
+
+
+        </div>
+        <div
+          style="height:13%; margin-top:5%;width:100%;background-color:transparent;display:flex;justify-content:center;align-items: center;flex-direction: column;">
+          <div style="display:flex;align-items: center;justify-content: center;margin-bottom:10px;margin-top:20px;">
+            <img class="icon" src="/assets/wizzlogo.png" style="height:40px;width:40px;" />
+            <h1
+              style="font-size:45px;margin-top:0px;margin-bottom:0px;text-align: center;line-height: 40px;margin-left:5px;">
+              Wizz</h1>
+
+          </div>
+
+        </div>
+        <div id="map">
+
+        </div>
+        <div id="over">
+          <div id="ocontent">
+            <input type="text" placeholder="Search" id="search"
+              style="font-size:19px;width:93%;background-color: rgba(255, 255, 255, 0.836);border:solid 0.7px gray" />
+            <div id="locations" style="overflow-y: scroll;scrollbar-width: none;height:80%;width:100%;">
+
+            </div>
+          </div>
+        </div>
+        <div id="placeinfo" style="overflow-y: scroll;scrollbar-width: none;">
+          <div style="display:flex;flex-direction: row;padding:7px;">
+            <img id="pinfoimg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBaKceAuLS3B-dCjxX1KLOavFp_lG5Y1ViWg&s"
+              style="height:150px;width:30%; object-fit: cover;border-radius:5px;" />
+            <div style="margin-left:10px;">
+              <h1 style="margin-top:3px;margin-bottom:3px;font-size:30px;line-height: 30px;" id="pinfoname">Effy's
+                Cafe</h1>
+              <p style="margin-top:2px;margin-bottom:2px;font-size:15px;font-weight: 500;" id="pinfoloc">104 W 96th
+                St, New York, NY
+                10025</p>
+              <div id="ratings">
+                <div style="display:flex;flex-direction: row;margin-bottom:3px;">
+                  <div style="margin-right:10px;">
+                    <p style="margin-top:5px;margin-bottom:2px;font-size:14px;color:rgb(50, 50, 50)">Cleanliness</p>
+                    <div style="display:flex;flex-direction: row;" id="pinfocl">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <p style="margin-top:5px;margin-bottom:2px;font-size:14px;color:rgb(50, 50, 50)">Accessibility
+                    </p>
+                    <div style="display:flex;flex-direction: row;" id="pinfoac">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction: row;margin-bottom:0px;">
+                  <div style="margin-right:10px;">
+                    <p style="margin-top:5px;margin-bottom:2px;font-size:14px;color:rgb(50, 50, 50)">Location</p>
+                    <div style="display:flex;flex-direction: row;" id="pinfolo">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <p style="margin-top:5px;margin-bottom:2px;font-size:14px;color:rgb(50, 50, 50)">Vibe</p>
+                    <div style="display:flex;flex-direction: row;" id="pinfovi">
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                      <i class="fa-solid fa-star"></i>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div
+            style="width:calc(100% - 20px);background-color: transparent;margin:10px;display:flex;flex-direction: column;justify-content: center;align-items: flex-start;">
+            <h1 style="font-size:30px;line-height: 30px;margin-top:2px;margin-bottom:5px;">Reviews (<span
+                id="pinforcount"></span>)</h1>
+            <div style="position:absolute;padding:0;right:10px;top:10px;margin:0px;">
+              <i class="fa-solid fa-xmark" id="pinfoclose"></i>
+            </div>
+            <div id="pinforeviews">
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+
+      </div>
+    </div>
+
+
+  </div>
+  <script>
+    function distance(lat1, lon1, lat2, lon2, unit) {
+      if ((lat1 == lat2) && (lon1 == lon2)) {
+        return 0;
+      }
+      else {
+        var radlat1 = Math.PI * lat1 / 180;
+        var radlat2 = Math.PI * lat2 / 180;
+        var theta = lon1 - lon2;
+        var radtheta = Math.PI * theta / 180;
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        if (dist > 1) {
+          dist = 1;
+        }
+        dist = Math.acos(dist);
+        dist = dist * 180 / Math.PI;
+        dist = dist * 60 * 1.1515;
+        if (unit == "K") { dist = dist * 1.609344 }
+        if (unit == "N") { dist = dist * 0.8684 }
+        return dist;
+      }
+    }
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaXBhZGRyZXNzZXNhcmVjb29sIiwiYSI6ImNremg3ejc4YjNxOGgycnBydzVkejN1ZnIifQ.dowjcNgmivNRA9W_a9b96g';
+    const maxbounds = [
+      [-73.984525, 40.757606],
+      [-73.951353, 40.805518]
+    ]
+    const map = new mapboxgl.Map({
+      container: 'map', // container ID
+      style: 'mapbox://styles/mapbox/streets-v12', // style URL
+      center: [-73.967276, 40.779462], // starting position [lng, lat]
+      zoom: 11, // starting zoom
+      maxBounds: maxbounds,
+      // bounds:[-73.970714,  40.756706, -73.963559,40.800561]
+    });
+    let prevCenter = [-73.967276, 40.779462];
+    let prevSearch = "";
+
+    setInterval(function () {
+      if (prevCenter[0] != map.getCenter().lng || prevCenter[1] != map.getCenter().lat || (prevSearch != $("#search").val())) {
+        prevCenter = [map.getCenter().lng, map.getCenter().lat]
+        prevSearch = $("#search").val();
+        refreshList();
+
+
+
+
+
+      }
+    }, 1000)
+
+    function refreshList() {
+      $("#locations").html("")
+
+      const loc = prevCenter;
+      //finding closest 10 markers
+      let closestMarkers = [];
+      for (let mid of Object.keys(MARKERS)) {
+        const marker = MARKERS[mid];
+        const dist = Math.round(distance(loc[1], loc[0], marker.loc[1], marker.loc[0]) * 100) / 100
+        if (closestMarkers.length < 10) {
+          closestMarkers.push([mid, dist]);
+        } else {
+          if (dist < closestMarkers[closestMarkers.length - 1][1]) {
+            closestMarkers.pop();
+            closestMarkers.push([mid, dist]);
+          }
+        }
+      }
+      closestMarkers.sort((a, b) => a[1] - b[1]);
+      for (let marker of closestMarkers) {
+        const marker_data = MARKERS[marker[0]];
+        if (!marker_data.name.toLowerCase().includes($("#search").val().toLowerCase())) {
+          continue;
+        }
+        $("#locations").append(`
+        <div class="review" style="margin-left:auto;margin-right:auto;border-radius:15px;" id="r${marker[0]}">
+          <div style="display:flex;flex-direction: row;padding:7px;">
+            <img
+              src="${marker_data.imglink}"
+              style="height:100px;width:30%; object-fit: cover;border-radius:5px;" />
+            <div style="margin-left:10px;width:70%;">
+              <h1 style="margin-top:3px;margin-bottom:3px;font-size:25px;line-height: 25px;">${marker_data.name}</h1>
+              <p style="margin-top:2px;margin-bottom:2px;font-size:15px;font-weight: 500;">${marker_data.location}</p>
+              <div style="display:flex;flex-direction: row;">
+                <p style="width:50%;text-align: left;margin-top:2px;margin-bottom:3px;"><i class="fa-solid fa-route"></i> ${marker[1]} miles</p>
+                <p style="width:50%;text-align: left;margin-top:2px;margin-bottom:3px;"><i class="fa-solid fa-comment"></i> ${marker_data.reviews.length} reviews</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        `)
+        const id = marker[0]
+        $("#r" + marker[0]).click(function () {
+          if (step == 4) {
+            step = 5;
+            $("#info").animate({ opacity: 0 }, 500, function () {
+              $("#placeinfo").css("opacity", 0);
+
+              $("#info").css("display", "none");
+              $("#info").css("top", "20%");
+              $("#info").css("left", "15%");
+              $("#info").css("display", "block");
+              $("#infop").text("Thanks for demoing Wizz! Help a group of high schoolers by providing feedback for our entrepreneurship project with our survey below! You can also continue exploring by clicking anywhere.");
+              $("#info").append("<button id='surveylink'>Quick Survey</button>")
+              $("#surveylink").click(function () {
+                window.open('https://forms.gle/hd7Q4qSrZLLvSwEQ9');
+              })
+
+              $("#infoicon").attr('class', "fa-solid fa-arrow-down");
+              $("#map").css("z-index", "auto");
+              const info = MARKERS[id];
+              $("#pinfoimg").attr("src", info.imglink);
+              $("#pinfoname").text(info.name);
+
+              $("#pinfoloc").text(info.location);
+              $("#info").animate({ opacity: 1 }, 500);
+              $("#pinfocl").html("")
+              for (let i = 0; i < info["ratings"]["cleanliness"]; i++) {
+                $("#pinfocl").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+              }
+              for (let i = 0; i < 5 - info["ratings"]["cleanliness"]; i++) {
+                $("#pinfocl").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+              }
+
+              $("#pinfoac").html("")
+              for (let i = 0; i < info["ratings"]["accessibility"]; i++) {
+                $("#pinfoac").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+              }
+              for (let i = 0; i < 5 - info["ratings"]["accessibility"]; i++) {
+                $("#pinfoac").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+              }
+
+
+              $("#pinfolo").html("")
+              for (let i = 0; i < info["ratings"]["location"]; i++) {
+                $("#pinfolo").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+              }
+              for (let i = 0; i < 5 - info["ratings"]["location"]; i++) {
+                $("#pinfolo").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+              }
+
+
+              $("#pinfovi").html("")
+              for (let i = 0; i < info["ratings"]["vibe"]; i++) {
+                $("#pinfovi").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+              }
+              for (let i = 0; i < 5 - info["ratings"]["vibe"]; i++) {
+                $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+              }
+              $("#pinforcount").text(info["reviews"].length);
+              $("#pinforeviews").html("")
+              for (let i = 0; i < info["reviews"].length; i++) {
+                let stars = "";
+                for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
+                  stars += "<i class='fa-solid fa-star' style='color:#FFE942'></i>"
+                }
+                for (let j = 0; j < 5 - info["reviews"][i]["rating"]; j++) {
+                  stars += "<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>"
+                }
+
+                $("#pinforeviews").append(`
+                <div class="review">
+                  <div style="display:flex;flex-direction: row;align-items:center;justify-content: flex-start;width:100%;">
+                    <h1 style="font-size:20px;line-height: 20px;margin-top:4px;margin-bottom:1px;">${info["reviews"][i]["name"]}</h1>
+                    <div style="display:flex;flex-direction: row;margin-left:auto;margin-right:10px;">
+                    ${stars}
+                    </div>
+                  </div>
+                  <p style="margin-top:3px;margin-bottom:3px;">${info["reviews"][i]["review"]}</p>
+                </div>
+              `)
+              }
+              $("#ocontent").css("z-index", 50);
+              $("#placeinfo").css("z-index", 70);
+
+              $("#placeinfo").animate({ opacity: 1 }, 500);
+
+
+
+
+            })
+          }
+          if (step == 6) {
+            const info = MARKERS[id];
+            $("#pinfoimg").attr("src", info.imglink);
+            $("#pinfoname").text(info.name);
+
+            $("#pinfoloc").text(info.location);
+            $("#info").animate({ opacity: 1 }, 500);
+            $("#pinfocl").html("")
+            for (let i = 0; i < info["ratings"]["cleanliness"]; i++) {
+              $("#pinfocl").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+            }
+            for (let i = 0; i < 5 - info["ratings"]["cleanliness"]; i++) {
+              $("#pinfocl").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+            }
+
+            $("#pinfoac").html("")
+            for (let i = 0; i < info["ratings"]["accessibility"]; i++) {
+              $("#pinfoac").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+            }
+            for (let i = 0; i < 5 - info["ratings"]["accessibility"]; i++) {
+              $("#pinfoac").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+            }
+
+
+            $("#pinfolo").html("")
+            for (let i = 0; i < info["ratings"]["location"]; i++) {
+              $("#pinfolo").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+            }
+            for (let i = 0; i < 5 - info["ratings"]["location"]; i++) {
+              $("#pinfolo").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+            }
+
+
+            $("#pinfovi").html("")
+            for (let i = 0; i < info["ratings"]["vibe"]; i++) {
+              $("#pinfovi").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+            }
+            for (let i = 0; i < 5 - info["ratings"]["vibe"]; i++) {
+              $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+            }
+            $("#pinforcount").text(info["reviews"].length);
+            $("#pinforeviews").html("")
+            for (let i = 0; i < info["reviews"].length; i++) {
+              let stars = "";
+              for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
+                stars += "<i class='fa-solid fa-star' style='color:#FFE942'></i>"
+              }
+              for (let j = 0; j < 5 - info["reviews"][i]["rating"]; j++) {
+                stars += "<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>"
+              }
+
+              $("#pinforeviews").append(`
+                <div class="review">
+                  <div style="display:flex;flex-direction: row;align-items:center;justify-content: flex-start;width:100%;">
+                    <h1 style="font-size:20px;line-height: 20px;margin-top:4px;margin-bottom:1px;">${info["reviews"][i]["name"]}</h1>
+                    <div style="display:flex;flex-direction: row;margin-left:auto;margin-right:10px;">
+                    ${stars}
+                    </div>
+                  </div>
+                  <p style="margin-top:3px;margin-bottom:3px;">${info["reviews"][i]["review"]}</p>
+                </div>
+              `)
+            }
+            $("#placeinfo").css("z-index", 600);
+            $("#placeinfo").animate({ opacity: 1 }, 500);
+          }
+        })
+
+      }
+
+    }
+    const MARKERS = {
+      "effycafe": {
+        "loc": [-73.9681813398121, 40.79295001942242],
+        "name": "Effy's Cafe",
+        "id": "effycafe",
+        "ratings": {
+          "cleanliness": 5,
+          "accessibility": 4,
+          "location": 5,
+          "vibe": 3
+        },
+        "location": "104 W 96th St, New York, NY 10025",
+        "imglink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBaKceAuLS3B-dCjxX1KLOavFp_lG5Y1ViWg&s",
+        "reviews": [
+          { "name": "Sally", "rating": 5, "review": "Effy’s Cafe’s bathroom is surprisingly clean, cozy, and well-maintained for a busy NYC spot." },
+          { "name": "Mark", "rating": 4, "review": "Small but clean bathroom that’s better than expected for a Manhattan café." },
+          { "name": "Jasmine", "rating": 5, "review": "One of the cleanest café bathrooms I’ve seen in NYC." },
+          { "name": "Ethan", "rating": 3, "review": "The bathroom is fine and usable, though nothing particularly memorable." },
+          { "name": "Jeffrey", "rating": 4, "review": "Well-kept and tidy, which is always appreciated in the city. Staff were super friendly." },
+          { "name": "Carlos", "rating": 2, "review": "It was functional, but a bit cramped during busy hours." },
+          { "name": "Ava", "rating": 5, "review": "Clean, stocked, and surprisingly comfortable for a café bathroom." },
+          { "name": "Brian", "rating": 3, "review": "Average bathroom experience, but at least it was clean." }
+        ]
+      },
+
+      "columbuscafe": {
+        "loc": [-73.97195854562064, 40.78728568271368],
+        "name": "Columbus Cafe",
+        "id": "columbuscafe",
+        "ratings": { "cleanliness": 3, "accessibility": 5, "location": 5, "vibe": 4 },
+        "location": "556 Columbus Ave, New York, NY 10024",
+        "imglink": "https://assets.bonappetit.com/photos/57c59f5da184a3c9209db715/master/w_1600%2Cc_limit/Tempura-Matsui-Interior-12.jpg",
+        "reviews": [
+          { "name": "Natalie", "rating": 4, "review": "Very accessible and easy to find, especially near the park." },
+          { "name": "Chris", "rating": 3, "review": "Bathroom was okay, not spotless but usable." },
+          { "name": "Emma", "rating": 4, "review": "Good location and decent cleanliness for a busy area." },
+          { "name": "Jordan", "rating": 3, "review": "Nothing fancy, but it works when you need it." },
+          { "name": "Leo", "rating": 4, "review": "Convenient stop with a solid vibe overall." }
+        ]
+
+      },
+
+      "uptowncafe": {
+        "loc": [-73.95229541863903, 40.78622350130896],
+        "name": "Uptown Cafe and Pastries",
+        "id": "uptowncafe",
+        "ratings": { "cleanliness": 3, "accessibility": 4, "location": 4, "vibe": 3 },
+        "location": "100 E 96th St, New York, NY 10128",
+        "imglink": "https://assets.bonappetit.com/photos/57d328bbc204478524d8728e/master/pass/FOUR-HORSEMEN-bathroom.jpg",
+        "reviews": [
+          { "name": "Maya", "rating": 3, "review": "Bathroom was average, but clean enough." },
+          { "name": "Ryan", "rating": 4, "review": "Easy to access and pretty standard for the area." },
+          { "name": "Olivia", "rating": 3, "review": "Not bad, not great—just fine." },
+          { "name": "Daniel", "rating": 3, "review": "A little cramped but usable." },
+          { "name": "Sophia", "rating": 4, "review": "Good location and acceptable cleanliness." }
+        ]
+
+
+
+      },
+
+      "parkdeli": {
+        "loc": [-73.9464038670987, 40.795760269620544],
+        "name": "Park Deli",
+        "id": "parkdeli",
+        "ratings": { "cleanliness": 2, "accessibility": 3, "location": 5, "vibe": 2 },
+        "location": "81 E 110th St, New York, NY 10029",
+        "imglink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsE7YZjgbLac0ydRRlvDlF0kfF-IQ263XtoA&s",
+        "reviews": [
+          { "name": "Kevin", "rating": 2, "review": "Not very clean and felt rushed using it." },
+          { "name": "Alicia", "rating": 3, "review": "Location is great, but the bathroom needs work." },
+          { "name": "Tom", "rating": 2, "review": "Pretty rough overall, wouldn’t recommend." },
+          { "name": "Rachel", "rating": 3, "review": "Convenient spot, but cleanliness is lacking." },
+          { "name": "Ben", "rating": 2, "review": "It’s there if you’re desperate, but that’s about it." }
+        ]
+
+
+      },
+
+      "breadsbakery": {
+        "loc": [-73.95981028986287, 40.77124379247353],
+        "name": "Breads Bakery",
+        "id": "breadsbakery",
+        "ratings": { "cleanliness": 4, "accessibility": 4, "location": 4, "vibe": 4 },
+        "location": "1294 3rd Ave, New York, NY 10021",
+        "imglink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFO2zAAa3eynzfE9tqlwrw0TmVVX8gcS99Gg&s",
+        "reviews": [
+          { "name": "Isabella", "rating": 4, "review": "Clean and well-maintained, just like the rest of the bakery." },
+          { "name": "Noah", "rating": 4, "review": "Nice balance of cleanliness and comfort." },
+          { "name": "Lily", "rating": 5, "review": "Surprisingly pleasant bathroom experience." },
+          { "name": "Aaron", "rating": 4, "review": "Good vibe and easy to access." },
+          { "name": "Grace", "rating": 4, "review": "Consistently clean whenever I visit." }
+        ]
+
+      },
+
+      "lecafecoffee": {
+        "loc": [-73.97839543555112, 40.76209289617661],
+        "name": "Le Cafe Coffee",
+        "id": "lecafecoffee",
+        "ratings": { "cleanliness": 5, "accessibility": 3, "location": 4, "vibe": 4 },
+        "location": "1330 6th Ave, New York, NY 10019",
+        "imglink": "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/2e494c146670997.62b4503f1bc72.jpg",
+        "reviews": [
+          { "name": "Victor", "rating": 5, "review": "Very clean and well cared for." },
+          { "name": "Hannah", "rating": 4, "review": "Bathroom was spotless, though a bit small." },
+          { "name": "Sam", "rating": 5, "review": "One of the cleanest cafe bathrooms I’ve used." },
+          { "name": "Nina", "rating": 4, "review": "Nice atmosphere and very hygienic." },
+          { "name": "Paul", "rating": 5, "review": "Exceeded expectations for cleanliness." }
+        ]
+
+      },
+
+      "cafearoma": {
+        "loc": [-73.98253319626583, 40.77050360788844],
+        "name": "Cafe Aroma",
+        "id": "cafearoma",
+        "ratings": { "cleanliness": 3, "accessibility": 4, "location": 3, "vibe": 5 },
+        "location": "1873 Broadway, New York, NY 10023",
+        "imglink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcWfkuQbYwmtxLZbwVT_OAcuhWuEuh6S9Uiw&s",
+        "reviews": [
+          { "name": "Ella", "rating": 4, "review": "Loved the vibe, bathroom was decent." },
+          { "name": "Marcus", "rating": 3, "review": "Average cleanliness but great atmosphere." },
+          { "name": "Tina", "rating": 4, "review": "Not the cleanest, but the ambiance makes up for it." },
+          { "name": "Josh", "rating": 3, "review": "Okay bathroom, amazing vibe." },
+          { "name": "Priya", "rating": 4, "review": "Feels stylish even if the bathroom is just okay." }
+        ]
+
+      },
+
+      "magnoliabakery": {
+        "loc": [-73.98253319626583, 40.77565208969383],
+        "name": "Magnolia Bakery",
+        "id": "magnoliabakery",
+        "ratings": { "cleanliness": 4, "accessibility": 4, "location": 5, "vibe": 3 },
+        "location": "200 Columbus Ave, New York, NY 10023",
+        "imglink": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSi6x2EgSna35hGBLDW4XTpXO6Jpw_kLXbneQ&s",
+        "reviews": [
+          { "name": "Claire", "rating": 4, "review": "Clean and easy to access, but can get busy." },
+          { "name": "Evan", "rating": 5, "review": "Great location and very well-kept." },
+          { "name": "Monica", "rating": 4, "review": "Reliable and clean for a popular spot." },
+          { "name": "Jake", "rating": 3, "review": "Fine overall, nothing special." },
+          { "name": "Samantha", "rating": 4, "review": "Good balance of cleanliness and convenience." }
+        ]
+
+      },
+
+      "mineralspringsrestrooms": {
+        "loc": [-73.97441705939764, 40.772968112943595],
+        "name": "Mineral Springs Public Restrooms",
+        "id": "mineralspringsrestrooms",
+        "ratings": { "cleanliness": 2, "accessibility": 3, "location": 3, "vibe": 2 },
+        "location": "Mineral Springs, Central Park, New York, NY 10019",
+        "imglink": "https://res.cloudinary.com/jerrick/image/upload/v1695922682/6515b9fa879653001d8759e2.webp",
+        "reviews": [
+          { "name": "Derek", "rating": 2, "review": "Pretty rough, but it’s a public restroom." },
+          { "name": "Anna", "rating": 3, "review": "Not great, but usable in a pinch." },
+          { "name": "Luis", "rating": 2, "review": "Could definitely be cleaner." },
+          { "name": "Mei", "rating": 3, "review": "Location is convenient, cleanliness not so much." },
+          { "name": "Rob", "rating": 2, "review": "You get what you expect from a park restroom." }
+        ]
+
+      },
+
+      "cafevalona": {
+        "loc": [-73.96049823040269, 40.80401674347095],
+        "name": "Cafe Valona",
+        "id": "cafevalona",
+        "ratings": { "cleanliness": 5, "accessibility": 5, "location": 5, "vibe": 4 },
+        "location": "Morningside Park, Morningside Dr, New York, NY 10026",
+        "imglink": "https://i.pinimg.com/236x/13/12/52/131252f86888c419f90f768759e2c3cf.jpg",
+        "reviews": [
+          { "name": "Zoe", "rating": 5, "review": "Exceptionally clean and very accessible." },
+          { "name": "Anthony", "rating": 5, "review": "Great location and spotless bathroom." },
+          { "name": "Fatima", "rating": 4, "review": "Clean, comfortable, and easy to use." },
+          { "name": "Lucas", "rating": 5, "review": "One of the best bathroom experiences around the park." },
+          { "name": "Megan", "rating": 5, "review": "Consistently excellent all around." }
+        ]
+
+      },
+
+      "harlemtreats": {
+        "loc": [-73.95043345213954, 40.808274172069204],
+        "name": "Harlem Sweet Treats",
+        "id": "harlemtreats",
+        "ratings": { "cleanliness": 4, "accessibility": 3, "location": 4, "vibe": 3 },
+        "location": "225 W 123rd St, New York, NY 10027",
+        "imglink": "https://i.pinimg.com/236x/90/41/b5/9041b54fae80e93b10b1294e9f720ddd.jpg",
+        "reviews": [
+          { "name": "Andre", "rating": 4, "review": "Pretty clean and conveniently located." },
+          { "name": "Vanessa", "rating": 3, "review": "Bathroom was fine, nothing special." },
+          { "name": "Malik", "rating": 4, "review": "Good balance of cleanliness and accessibility." },
+          { "name": "Jenna", "rating": 3, "review": "Average experience overall." },
+          { "name": "Theo", "rating": 4, "review": "Solid option if you’re in the area." }
+        ]
+
+      }
+    };
+
+    for (let mid of Object.keys(MARKERS)) {
+      const marker = MARKERS[mid];
+      const el = document.createElement('div');
+      el.className = 'marker';
+      const markerM = new mapboxgl.Marker()
+        .setLngLat(marker.loc)
+        .addTo(map);
+      markerM.getElement().id = marker.id
+      $(markerM.getElement()).click(function () {
+        markerClick(this)
+      })
+
+    }
+    $("#s1-name").on("input", checkComplete);
+    $("#s1-email").on("input", checkComplete);
+    $("#s1-gender").on("change", checkComplete);
+    $("#s1-age").on("change", checkComplete);
+    function checkComplete() {
+      if ($("#s1-name").val().length > 1 && $("#s1-email").val().length > 1 && $("#s1-gender").val() != "select" && $("#s1-age").val() != "select") {
+        $("#s1-submit").prop("disabled", false);
+      } else {
+        $("#s1-submit").prop("disabled", true);
+      }
+    }
+    function markerClick(el) {
+
+      const id = ($(el).attr("id"));
+      console.log(id, step);
+      if (step == 2) {
+        step = 3;
+
+        $("#info").animate({ opacity: 0 }, 500, function () {
+          $("#info").css("display", "none");
+          $("#info").css("top", "50%");
+          $("#info").css("left", "15%");
+          $("#info").css("display", "block");
+          $("#infop").text("Clicking on a marker gives you detailed information about a location. Check out the information below and click this to continue!");
+          $("#infoicon").attr('class', "fa-solid fa-arrow-down");
+          $("#map").css("z-index", "auto");
+          const info = MARKERS[id];
+          $("#pinfoimg").attr("src", info.imglink);
+          $("#pinfoname").text(info.name);
+
+          $("#pinfoloc").text(info.location);
+          $("#placeinfo").css("opacity", 0);
+          $("#placeinfo").css("z-index", "600");
+          $("#placeinfo").animate({ opacity: 1 }, 500);
+
+          $("#info").animate({ opacity: 1 }, 500);
+          $("#pinfocl").html("")
+          for (let i = 0; i < info["ratings"]["cleanliness"]; i++) {
+            $("#pinfocl").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+          }
+          for (let i = 0; i < 5 - info["ratings"]["cleanliness"]; i++) {
+            $("#pinfocl").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+          }
+
+          $("#pinfoac").html("")
+          for (let i = 0; i < info["ratings"]["accessibility"]; i++) {
+            $("#pinfoac").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+          }
+          for (let i = 0; i < 5 - info["ratings"]["accessibility"]; i++) {
+            $("#pinfoac").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+          }
+
+
+          $("#pinfolo").html("")
+          for (let i = 0; i < info["ratings"]["location"]; i++) {
+            $("#pinfolo").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+          }
+          for (let i = 0; i < 5 - info["ratings"]["location"]; i++) {
+            $("#pinfolo").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+          }
+
+
+          $("#pinfovi").html("")
+          for (let i = 0; i < info["ratings"]["vibe"]; i++) {
+            $("#pinfovi").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+          }
+          for (let i = 0; i < 5 - info["ratings"]["vibe"]; i++) {
+            $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+          }
+          $("#pinforcount").text(info["reviews"].length);
+          $("#pinforeviews").html("")
+          for (let i = 0; i < info["reviews"].length; i++) {
+            let stars = "";
+            for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
+              stars += "<i class='fa-solid fa-star' style='color:#FFE942'></i>"
+            }
+            for (let j = 0; j < 5 - info["reviews"][i]["rating"]; j++) {
+              stars += "<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>"
+            }
+
+            $("#pinforeviews").append(`
+                <div class="review">
+                  <div style="display:flex;flex-direction: row;align-items:center;justify-content: flex-start;width:100%;">
+                    <h1 style="font-size:20px;line-height: 20px;margin-top:4px;margin-bottom:1px;">${info["reviews"][i]["name"]}</h1>
+                    <div style="display:flex;flex-direction: row;margin-left:auto;margin-right:10px;">
+                    ${stars}
+                    </div>
+                  </div>
+                  <p style="margin-top:3px;margin-bottom:3px;">${info["reviews"][i]["review"]}</p>
+                </div>
+              `)
+          }
+
+
+        })
+
+      }
+      console.log('step?')
+      if (step == 6) {
+        console.log("ea")
+        const info = MARKERS[id];
+        $("#pinfoimg").attr("src", info.imglink);
+        $("#pinfoname").text(info.name);
+
+        $("#pinfoloc").text(info.location);
+
+        $("#pinfocl").html("")
+        for (let i = 0; i < info["ratings"]["cleanliness"]; i++) {
+          $("#pinfocl").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+        }
+        for (let i = 0; i < 5 - info["ratings"]["cleanliness"]; i++) {
+          $("#pinfocl").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+        }
+
+        $("#pinfoac").html("")
+        for (let i = 0; i < info["ratings"]["accessibility"]; i++) {
+          $("#pinfoac").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+        }
+        for (let i = 0; i < 5 - info["ratings"]["accessibility"]; i++) {
+          $("#pinfoac").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+        }
+
+
+        $("#pinfolo").html("")
+        for (let i = 0; i < info["ratings"]["location"]; i++) {
+          $("#pinfolo").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+        }
+        for (let i = 0; i < 5 - info["ratings"]["location"]; i++) {
+          $("#pinfolo").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+        }
+
+
+        $("#pinfovi").html("")
+        for (let i = 0; i < info["ratings"]["vibe"]; i++) {
+          $("#pinfovi").append("<i class='fa-solid fa-star' style='color:#FFE942'></i>")
+        }
+        for (let i = 0; i < 5 - info["ratings"]["vibe"]; i++) {
+          $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
+        }
+        $("#pinforcount").text(info["reviews"].length);
+        $("#pinforeviews").html("")
+        for (let i = 0; i < info["reviews"].length; i++) {
+          let stars = "";
+          for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
+            stars += "<i class='fa-solid fa-star' style='color:#FFE942'></i>"
+          }
+          for (let j = 0; j < 5 - info["reviews"][i]["rating"]; j++) {
+            stars += "<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>"
+          }
+
+          $("#pinforeviews").append(`
+                <div class="review">
+                  <div style="display:flex;flex-direction: row;align-items:center;justify-content: flex-start;width:100%;">
+                    <h1 style="font-size:20px;line-height: 20px;margin-top:4px;margin-bottom:1px;">${info["reviews"][i]["name"]}</h1>
+                    <div style="display:flex;flex-direction: row;margin-left:auto;margin-right:10px;">
+                    ${stars}
+                    </div>
+                  </div>
+                  <p style="margin-top:3px;margin-bottom:3px;">${info["reviews"][i]["review"]}</p>
+                </div>
+              `)
+        }
+        $("#placeinfo").css("opacity", 0);
+        $("#placeinfo").css("z-index", 400);
+        $("#placeinfo").animate({ opacity: 1 }, 500);
+
+
+      }
+    }
+
+
+    // Source - https://stackoverflow.com/a/57248905
+    // Posted by KSPR
+    // Retrieved 2025-12-19, License - CC BY-SA 4.0
+
+    map.on('load', function () {
+      map.resize();
+    });
+
+    let step = 1;
+    $("#s1-submit").click(function () {
+      $("#screen1").animate({ opacity: 0 }, 500, function () {
+        $("#screen1").css('display', 'none');
+        $("#screen2").css("opacity", 0);
+        $("#screen2").css("display", "flex");
+        $("#screen2").animate({ opacity: 1 }, 500);
+        map.resize();
+        step = 1;
+        $("#infoicon").attr("class", "");
+        $("#info").css("top", "30%");
+        $("#info").css("left", "15%");
+
+
+      });
+    })
+
+    $("#info").click(function () {
+      if (step == 1) {
+        step = 2;
+        $("#info").animate({ opacity: 0 }, 500, function () {
+          $("#info").css("display", "none");
+          $("#info").css("top", "75%");
+          $("#info").css("left", "10%");
+          $("#info").css("display", "block");
+          $("#infop").text("First up we have an interactive map that shows you all nearby locations. Trying playing around with the map and click on any location!");
+          $("#infoicon").attr('class', "fa-solid fa-arrow-up");
+          $("#map").css("z-index", 600);
+
+
+          $("#info").animate({ opacity: 1 }, 500);
+
+        })
+
+
+      }
+      if (step == 3) {
+        step = 4;
+        $("#info").animate({ opacity: 0 }, 500, function () {
+          console.log("back")
+          $("#info").css("display", "none");
+          $("#info").css("top", "50%");
+          $("#info").css("left", "5%");
+          $("#info").css("display", "block");
+          $("#infop").text("Besides the map, you also have a live list of all locations nearby! Click on any location to get more information about them!");
+          $("#infoicon").attr('class', "fa-solid fa-arrow-down");
+          $("#placeinfo").animate({ opacity: 0 }, 500, function () {
+            $("#placeinfo").css("z-index", 40);
+          });
+
+          $("#ocontent").css("z-index", 600);
+          $("#info").animate({ opacity: 1 }, 500);
+
+        })
+      }
+    })
+    $("#darkcover").click(function () {
+      if (step == 5) {
+        step = 6; //end
+        $("#info").animate({ opacity: 0 }, 500, function () {
+          $("#info").css("display", "none");
+        })
+        $("#darkcover").animate({ opacity: 0 }, 500, function () {
+          $("#darkcover").css("display", "none");
+        })
+        $("#placeinfo").animate({ opacity: 0 }, 500, function () {
+          $("#placeinfo").css("z-index", 40);
+          $("#placeinfo").css("opacity", 1);
+
+        })
+        $("#ocontent").css("z-index", 50);
+
+      }
+    })
+    $("#pinfoclose").click(function () {
+      if (step == 3) {
+        step = 4;
+        $("#info").animate({ opacity: 0 }, 500, function () {
+          console.log("back")
+          $("#info").css("display", "none");
+          $("#info").css("top", "50%");
+          $("#info").css("left", "5%");
+          $("#info").css("display", "block");
+          $("#infop").text("Besides the map, you also have a live list of all locations nearby! Click on any location to get more information about them!");
+          $("#infoicon").attr('class', "fa-solid fa-arrow-down");
+          $("#placeinfo").animate({ opacity: 0 }, 500, function () {
+            $("#placeinfo").css("z-index", 40);
+          });
+
+          $("#ocontent").css("z-index", 600);
+          $("#info").animate({ opacity: 1 }, 500);
+
+        })
+      }
+      if (step == 6) {
+        $("#placeinfo").animate({ opacity: 0 }, 500, function () {
+          $("#placeinfo").css("z-index", 40);
+        });
+
+      }
+    })
+  </script>
+
+</body>
+
+</html>
