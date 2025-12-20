@@ -71,7 +71,7 @@
         <div
           style="height:13%; margin-top:5%;width:100%;background-color:transparent;display:flex;justify-content:center;align-items: center;flex-direction: column;">
           <div style="display:flex;align-items: center;justify-content: center;margin-bottom:10px;margin-top:20px;">
-            <img class="icon" src="/assets/wizzlogo.png" style="height:50px;width:50px;" />
+            <img class="icon" src="./assets/wizzlogo.png" style="height:50px;width:50px;" />
             <h1
               style="font-size:45px;margin-top:0px;margin-bottom:0px;text-align: center;line-height: 40px;margin-left:5px;">
               Wizz</h1>
@@ -649,8 +649,9 @@
     $("#s1-email").on("input", checkComplete);
     $("#s1-gender").on("change", checkComplete);
     $("#s1-age").on("change", checkComplete);
+    
     function checkComplete() {
-      if ($("#s1-name").val().length > 1 && $("#s1-email").val().length > 1 && $("#s1-gender").val() != "select" && $("#s1-age").val() != "select") {
+      if ($("#s1-name").val().length > 1 && $("#s1-email").val().length > 1 && $("#s1-gender").val() != null && $("#s1-age").val() != null) {
         $("#s1-submit").prop("disabled", false);
       } else {
         $("#s1-submit").prop("disabled", true);
