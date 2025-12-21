@@ -73,7 +73,7 @@
           <div
             style="width:calc(100% - 10px);padding-top:2px;padding-bottom:2px; border-radius:5px;background-color: rgb(249, 248, 246);display:flex;align-items: center;justify-content: center;flex-direction: row;pointer-events: all;">
             <p style="margin-top:2px;margin-bottom:2px;font-size:15px;">Please help us improve our app by filling out a
-              <a style="margin-top:2px;margin-bottom:2px;font-size:15px;" href="https://forms.gle/4xRrRtq9BdX8kZ9a9"
+              <a style="margin-top:2px;margin-bottom:2px;font-size:15px;" href="https://forms.gle/hd7Q4qSrZLLvSwEQ9"
                 target="_blank">quick survey</a>!
             </p>
           </div>
@@ -265,7 +265,7 @@
     let refreshing = false;
 
     map.on('move', () => {
-      center.setLngLat(map.getCenter());  
+      center.setLngLat(map.getCenter());
 
     });
     setInterval(function () {
@@ -424,6 +424,8 @@
               `)
               }
               $("#ocontent").css("z-index", 50);
+              $('#placeinfo').scrollTop(0);
+
               $("#placeinfo").css("z-index", 600);
 
               $("#placeinfo").animate({ opacity: 1 }, 500);
@@ -504,6 +506,8 @@
                 </div>
               `)
             }
+            $('#placeinfo').scrollTop(0);
+
             $("#placeinfo").css("z-index", 600);
             $("#placeinfo").animate({ opacity: 1 }, 500);
           }
@@ -805,9 +809,7 @@
           $("#pinfoname").text(info.name);
 
           $("#pinfoloc").text(info.location);
-          $("#placeinfo").css("opacity", 0);
-          $("#placeinfo").css("z-index", "600");
-          $("#placeinfo").animate({ opacity: 1 }, 500);
+
 
           $("#info").animate({ opacity: 1 }, 500);
           $("#pinfocl").html("")
@@ -852,6 +854,7 @@
           }
           $("#pinforcount").text(info["reviews"].length);
           $("#pinforeviews").html("")
+
           for (let i = 0; i < info["reviews"].length; i++) {
             let stars = "";
             for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
@@ -873,6 +876,11 @@
                 </div>
               `)
           }
+          $('#placeinfo').scrollTop(0);
+
+          $("#placeinfo").css("opacity", 0);
+          $("#placeinfo").css("z-index", 600);
+          $("#placeinfo").animate({ opacity: 1 }, 500);
 
 
         })
@@ -951,8 +959,10 @@
                 </div>
               `)
         }
+        $('#placeinfo').scrollTop(0);
+
         $("#placeinfo").css("opacity", 0);
-        $("#placeinfo").css("z-index", 400);
+        $("#placeinfo").css("z-index", 600);
         $("#placeinfo").animate({ opacity: 1 }, 500);
 
 
