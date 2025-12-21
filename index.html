@@ -25,8 +25,11 @@
     <div id="screen">
       <div id="screen1" class="screen">
         <img class="icon" src="./assets/wizzlogo.png" />
-        <h1 style="font-size:40px;margin-top:10px;margin-bottom:4px;text-align: center;">Wizz App Demo</h1>
-        <p style="font-size:18px;margin-top:1px;margin-bottom:10px;text-align: center;width:90%;">Please fill out the
+        <h1 style="font-size:40px;margin-top:0px;margin-bottom:8px;line-height: 40px;text-align: center;">Wizz App Demo</h1>
+        <div style="display:flex;align-items: center;justify-content: center;background-color: #90d4e9;padding-left:5px;padding-right:5px;border-radius: 5px;margin-bottom:10px;">
+          <p style="margin-top:2px;margin-bottom:2px;font-size:15px;font-weight: 600;">The Number One Solution to your Number Two Problem</p>
+        </div>
+        <p style="font-size:18px;margin-top:1px;margin-bottom:5px;text-align: center;width:90%;">Please fill out the
           information below to get started!</p>
         <input type="text" placeholder="Full Name*" id="s1-name" style="font-size:16px" />
         <input type="text" placeholder="Email Address*" id="s1-email" style="font-size:16px" />
@@ -59,9 +62,7 @@
         <div id="info">
           <h2 style="margin-top:0px;margin-bottom:5px;font-size:21px;">Wizz Demo</h2>
           <div style="display: flex;flex-direction: row;align-items: center;justify-content: flex-start;">
-            <p style="margin-top:0px;margin-bottom:5px;font-size:14px;margin-right:10px;" id="infop">Welcome to Wizz!
-              Let's show you
-              around to all the features offered by this useful app. <strong>Click this to continue!</strong></p>
+            <p style="margin-top:0px;margin-bottom:5px;font-size:14px;margin-right:10px;" id="infop">Welcome to Wizz! We are an created by high-school students that directs you to the nearest bathroom that meets all of your needs! <strong>Click this to continue!</strong></p>
             <i class="fa-solid fa-arrow-down" id="infoicon"></i>
 
           </div>
@@ -798,10 +799,10 @@
 
         $("#info").animate({ opacity: 0 }, 500, function () {
           $("#info").css("display", "none");
-          $("#info").css("top", "50%");
+          $("#info").css("top", "48%");
           $("#info").css("left", "15%");
           $("#info").css("display", "block");
-          $("#infop").html("Clicking on a marker gives you detailed information about a location. Check out the information below and <strong>click this to continue</strong>!");
+          $("#infop").html("Clicking on a marker gives you detailed information about a location. The information below will show you all of the amenities and user-reviews to give you insight for your bathroom experience. Check out all the information below and <strong>click this to continue</strong>!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-down");
           $("#map").css("z-index", "auto");
           const info = MARKERS[id];
@@ -1003,7 +1004,7 @@
           $("#info").css("top", "75%");
           $("#info").css("left", "10%");
           $("#info").css("display", "block");
-          $("#infop").html("First up we have an interactive map that has pins representing nearby restrooms. Trying playing around with the map and <strong>click on any restroom</strong>!");
+          $("#infop").html("First up we have an interactive map that displays pins representing nearby restrooms. Try playing around with these locations by selecting and <strong>click on any pins</strong>!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-up");
           $("#map").css("z-index", 600);
 
@@ -1022,7 +1023,7 @@
           $("#info").css("top", "50%");
           $("#info").css("left", "5%");
           $("#info").css("display", "block");
-          $("#infop").html("Besides the map, you also have a live list of all restrooms nearby! <strong>Click on any location</strong> to get more information about them!");
+          $("#infop").html("You are also given a list of all the bathrooms, ranging in order from closest to furthest. Try <strong>clicking on any location</strong> to get more information about them!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-down");
           $("#placeinfo").animate({ opacity: 0 }, 500, function () {
             $("#placeinfo").css("z-index", 40);
