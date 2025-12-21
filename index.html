@@ -61,22 +61,44 @@
           <div style="display: flex;flex-direction: row;align-items: center;justify-content: flex-start;">
             <p style="margin-top:0px;margin-bottom:5px;font-size:14px;margin-right:10px;" id="infop">Welcome to Wizz!
               Let's show you
-              around to all the features offered by this useful app. Click this to continue!</p>
+              around to all the features offered by this useful app. <strong>Click this to continue!</strong></p>
             <i class="fa-solid fa-arrow-down" id="infoicon"></i>
 
           </div>
 
 
         </div>
+        <div id="feedback"
+          style="width:100%;position:absolute;top:15%;margin-top:1px;left:0;background-color: transparent;z-index:70;pointer-events: none;display: flex;align-items: center;justify-content: center;display:none;opacity: 0;">
+          <div
+            style="width:calc(100% - 10px);padding-top:2px;padding-bottom:2px; border-radius:5px;background-color: rgb(249, 248, 246);display:flex;align-items: center;justify-content: center;flex-direction: row;pointer-events: all;">
+            <p style="margin-top:2px;margin-bottom:2px;font-size:15px;">Please help us improve our app by filling out a
+              <a style="margin-top:2px;margin-bottom:2px;font-size:15px;" href="https://forms.gle/4xRrRtq9BdX8kZ9a9"
+                target="_blank">quick survey</a>!
+            </p>
+          </div>
+
+        </div>
         <div
-          style="height:13%; margin-top:5%;width:100%;background-color:transparent;display:flex;justify-content:center;align-items: center;flex-direction: column;">
-          <div style="display:flex;align-items: center;justify-content: center;margin-bottom:10px;margin-top:20px;">
+          style="height:13%; margin-top:3%;width:100%;background-color:transparent;display:flex;justify-content:center;align-items: center;flex-direction: column;">
+          <div style="display:flex;align-items: center;justify-content: center;margin-top:16px;">
             <img class="icon" src="./assets/wizzlogo.png" style="height:50px;width:50px;" />
             <h1
               style="font-size:45px;margin-top:0px;margin-bottom:0px;text-align: center;line-height: 40px;margin-left:5px;">
               Wizz</h1>
 
           </div>
+          <div style="display:flex;align-items: center;justify-content: center;">
+            <i class="fa-brands fa-square-instagram" style="font-size:17px;margin-right:5px"></i>
+            <a style="margin-top:2px;margin-bottom:2px;width:100%;text-align: center;font-size:13px;color:black"
+              href="https://www.instagram.com/DownloadWizzRHS" target="_blank"> @DownloadWizzRHS
+            </a>
+
+          </div>
+
+
+
+
 
         </div>
         <div id="map">
@@ -155,6 +177,22 @@
             </div>
 
           </div>
+          <h1
+            style="margin-top:10px;margin-bottom:2px;font-size:25px;line-height: 25px;width:100%;text-align: left;margin-left:20px;">
+            What to Expect</h1>
+          <div style="width:calc(100% - 20px);margin-top:4px;margin-bottom:5px;display:flex;">
+            <div style="width:50%;" class="ihalf" id="has">
+              <p><i class="fa-solid fa-check check"></i> Stuff 1</p>
+              <p><i class="fa-solid fa-check check"></i> Stuff 1</p>
+              <p><i class="fa-solid fa-check check"></i> Stuff 1</p>
+
+            </div>
+            <div style="width:50%;margin-left:15px;" class="ihalf" id="lacks">
+              <p><i class="fa-solid fa-xmark x"></i> Stuff 1</p>
+              <p><i class="fa-solid fa-xmark x"></i> Stuff 1</p>
+
+            </div>
+          </div>
           <div
             style="width:calc(100% - 20px);background-color: transparent;margin:10px;display:flex;flex-direction: column;justify-content: center;align-items: flex-start;">
             <h1 style="font-size:30px;line-height: 30px;margin-top:2px;margin-bottom:5px;">Reviews (<span
@@ -200,6 +238,7 @@
         return dist;
       }
     }
+
     mapboxgl.accessToken = 'pk.eyJ1IjoiaXBhZGRyZXNzZXNhcmVjb29sIiwiYSI6ImNremg3ejc4YjNxOGgycnBydzVkejN1ZnIifQ.dowjcNgmivNRA9W_a9b96g';
     const maxbounds = [
       [-73.984525, 40.757606],
@@ -213,14 +252,38 @@
       maxBounds: maxbounds,
       // bounds:[-73.970714,  40.756706, -73.963559,40.800561]
     });
-    let prevCenter = [-73.967276, 40.779462];
-    let prevSearch = "";
 
+    let prevCenter = [map.getCenter().lng, map.getCenter().lat];
+    const el = document.createElement('div');
+    el.className = 'marker';
+
+    // Add the marker to the map
+    const center = new mapboxgl.Marker(el)
+      .setLngLat([-73.967276, 40.779462])
+      .addTo(map);
+    let prevSearch = $("#search").val();
+    let refreshing = false;
+
+    map.on('move', () => {
+      center.setLngLat(map.getCenter());  
+
+    });
     setInterval(function () {
+      if (refreshing) {
+        return;
+      }
       if (prevCenter[0] != map.getCenter().lng || prevCenter[1] != map.getCenter().lat || (prevSearch != $("#search").val())) {
         prevCenter = [map.getCenter().lng, map.getCenter().lat]
         prevSearch = $("#search").val();
-        refreshList();
+        if (refreshing) return
+        refreshing = true;
+        $("#locations").html("<p style='width:100%;text-align:center;'>Calculating nearest bathrooms...</p>")
+
+        setTimeout(() => {
+
+          refreshing = false;
+          refreshList();
+        }, 2000);
 
 
 
@@ -228,7 +291,6 @@
 
       }
     }, 1000)
-
     function refreshList() {
       $("#locations").html("")
 
@@ -282,11 +344,12 @@
               $("#info").css("top", "20%");
               $("#info").css("left", "15%");
               $("#info").css("display", "block");
-              $("#infop").text("Thanks for demoing Wizz! Help a group of high schoolers by providing feedback for our entrepreneurship project with our survey below! You can also continue exploring by clicking anywhere.");
+              $("#infop").html("Thanks for demoing Wizz! Help a group of high schoolers by providing feedback for our entrepreneurship project with our survey below! You can also continue exploring by clicking anywhere.");
               $("#info").append("<button id='surveylink'>Quick Survey</button>")
               $("#surveylink").click(function () {
-                window.open('https://forms.gle/hd7Q4qSrZLLvSwEQ9');
+                window.open('https://forms.gle/hd7Q4qSrZLLvSwEQ9', '_blank');
               })
+              $
 
               $("#infoicon").attr('class', "fa-solid fa-arrow-down");
               $("#map").css("z-index", "auto");
@@ -330,7 +393,15 @@
                 $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
               }
               $("#pinforcount").text(info["reviews"].length);
-              $("#pinforeviews").html("")
+              $("#pinforeviews").html("");
+              $("#has").html("");
+              for (let i = 0; i < info["info"]["has"].length; i++) {
+                $("#has").append(`<p><i class="fa-solid fa-check check"></i> ${info["info"]["has"][i]}</p>`)
+              }
+              $("#lacks").html("");
+              for (let i = 0; i < info["info"]["lacks"].length; i++) {
+                $("#lacks").append(`<p><i class="fa-solid fa-xmark x"></i> ${info["info"]["lacks"][i]}</p>`)
+              }
               for (let i = 0; i < info["reviews"].length; i++) {
                 let stars = "";
                 for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
@@ -353,7 +424,7 @@
               `)
               }
               $("#ocontent").css("z-index", 50);
-              $("#placeinfo").css("z-index", 70);
+              $("#placeinfo").css("z-index", 600);
 
               $("#placeinfo").animate({ opacity: 1 }, 500);
 
@@ -403,7 +474,15 @@
               $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
             }
             $("#pinforcount").text(info["reviews"].length);
-            $("#pinforeviews").html("")
+            $("#pinforeviews").html("");
+            $("#has").html("");
+            for (let i = 0; i < info["info"]["has"].length; i++) {
+              $("#has").append(`<p><i class="fa-solid fa-check check"></i> ${info["info"]["has"][i]}</p>`)
+            }
+            $("#lacks").html("");
+            for (let i = 0; i < info["info"]["lacks"].length; i++) {
+              $("#lacks").append(`<p><i class="fa-solid fa-xmark x"></i> ${info["info"]["lacks"][i]}</p>`)
+            }
             for (let i = 0; i < info["reviews"].length; i++) {
               let stars = "";
               for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
@@ -428,9 +507,12 @@
             $("#placeinfo").css("z-index", 600);
             $("#placeinfo").animate({ opacity: 1 }, 500);
           }
+          prevCenter = [map.getCenter().lng, map.getCenter().lat];
+
         })
 
       }
+
 
     }
     const MARKERS = {
@@ -455,7 +537,11 @@
           { "name": "Carlos", "rating": 2, "review": "It was functional, but a bit cramped during busy hours." },
           { "name": "Ava", "rating": 5, "review": "Clean, stocked, and surprisingly comfortable for a café bathroom." },
           { "name": "Brian", "rating": 3, "review": "Average bathroom experience, but at least it was clean." }
-        ]
+        ],
+        "info": {
+          "has": ["Customers Only", "Single Stall"],
+          "lacks": ["Parking Lot", "Gender Neutral Availability", "Handicap Accessible"]
+        }
       },
 
       "columbuscafe": {
@@ -471,8 +557,11 @@
           { "name": "Emma", "rating": 4, "review": "Good location and decent cleanliness for a busy area." },
           { "name": "Jordan", "rating": 3, "review": "Nothing fancy, but it works when you need it." },
           { "name": "Leo", "rating": 4, "review": "Convenient stop with a solid vibe overall." }
-        ]
-
+        ],
+        "info": {
+          "has": ["Street Parking", "Handicap Accessible", "Customers Only", "Multi Stall"],
+          "lacks": ["Parking Lot", "Baby Changing Table"]
+        }
       },
 
       "uptowncafe": {
@@ -488,9 +577,11 @@
           { "name": "Olivia", "rating": 3, "review": "Not bad, not great—just fine." },
           { "name": "Daniel", "rating": 3, "review": "A little cramped but usable." },
           { "name": "Sophia", "rating": 4, "review": "Good location and acceptable cleanliness." }
-        ]
-
-
+        ],
+        "info": {
+          "has": ["Customers Only", "Street Parking", "Single Stall"],
+          "lacks": ["Handicap Accessible", "Gender Neutral Availability"]
+        }
 
       },
 
@@ -507,8 +598,11 @@
           { "name": "Tom", "rating": 2, "review": "Pretty rough overall, wouldn’t recommend." },
           { "name": "Rachel", "rating": 3, "review": "Convenient spot, but cleanliness is lacking." },
           { "name": "Ben", "rating": 2, "review": "It’s there if you’re desperate, but that’s about it." }
-        ]
-
+        ],
+        "info": {
+          "has": ["Street Parking", "Single Stall", "Gender Neutral Availability"],
+          "lacks": ["Handicap Accessible", "Baby Changing Table", "Parking Lot"]
+        }
 
       },
 
@@ -525,7 +619,12 @@
           { "name": "Lily", "rating": 5, "review": "Surprisingly pleasant bathroom experience." },
           { "name": "Aaron", "rating": 4, "review": "Good vibe and easy to access." },
           { "name": "Grace", "rating": 4, "review": "Consistently clean whenever I visit." }
-        ]
+        ],
+        "info": {
+          "has": ["Customers Only", "Handicap Accessible", "Multi Stall", "Baby Changing Table"],
+          "lacks": ["Parking Lot"]
+        }
+
 
       },
 
@@ -542,7 +641,12 @@
           { "name": "Sam", "rating": 5, "review": "One of the cleanest cafe bathrooms I’ve used." },
           { "name": "Nina", "rating": 4, "review": "Nice atmosphere and very hygienic." },
           { "name": "Paul", "rating": 5, "review": "Exceeded expectations for cleanliness." }
-        ]
+        ],
+        "info": {
+          "has": ["Customers Only", "Single Stall"],
+          "lacks": ["Parking Lot", "Handicap Accessible"]
+        }
+
 
       },
 
@@ -559,7 +663,12 @@
           { "name": "Tina", "rating": 4, "review": "Not the cleanest, but the ambiance makes up for it." },
           { "name": "Josh", "rating": 3, "review": "Okay bathroom, amazing vibe." },
           { "name": "Priya", "rating": 4, "review": "Feels stylish even if the bathroom is just okay." }
-        ]
+        ],
+        "info": {
+          "has": ["Gender Neutral Availability", "Multi Stall", "Street Parking"],
+          "lacks": ["Parking Lot", "Baby Changing Table"]
+        }
+
 
       },
 
@@ -576,7 +685,12 @@
           { "name": "Monica", "rating": 4, "review": "Reliable and clean for a popular spot." },
           { "name": "Jake", "rating": 3, "review": "Fine overall, nothing special." },
           { "name": "Samantha", "rating": 4, "review": "Good balance of cleanliness and convenience." }
-        ]
+        ],
+        "info": {
+          "has": ["Customers Only", "Handicap Accessible", "Multi Stall"],
+          "lacks": ["Parking Lot"]
+        }
+
 
       },
 
@@ -593,7 +707,12 @@
           { "name": "Luis", "rating": 2, "review": "Could definitely be cleaner." },
           { "name": "Mei", "rating": 3, "review": "Location is convenient, cleanliness not so much." },
           { "name": "Rob", "rating": 2, "review": "You get what you expect from a park restroom." }
-        ]
+        ],
+        "info": {
+          "has": ["Handicap Accessible", "Gender Neutral Availability", "Multi Stall"],
+          "lacks": ["Baby Changing Table", "Street Parking"]
+        }
+
 
       },
 
@@ -610,8 +729,11 @@
           { "name": "Fatima", "rating": 4, "review": "Clean, comfortable, and easy to use." },
           { "name": "Lucas", "rating": 5, "review": "One of the best bathroom experiences around the park." },
           { "name": "Megan", "rating": 5, "review": "Consistently excellent all around." }
-        ]
-
+        ],
+        "info": {
+          "has": ["Handicap Accessible", "Gender Neutral Availability", "Single Stall"],
+          "lacks": ["Parking Lot"]
+        }
       },
 
       "harlemtreats": {
@@ -627,10 +749,16 @@
           { "name": "Malik", "rating": 4, "review": "Good balance of cleanliness and accessibility." },
           { "name": "Jenna", "rating": 3, "review": "Average experience overall." },
           { "name": "Theo", "rating": 4, "review": "Solid option if you’re in the area." }
-        ]
+        ],
+        "info": {
+          "has": ["Street Parking", "Customers Only", "Single Stall"],
+          "lacks": ["Handicap Accessible", "Baby Changing Table"]
+        }
+
 
       }
     };
+    refreshList();
 
     for (let mid of Object.keys(MARKERS)) {
       const marker = MARKERS[mid];
@@ -649,7 +777,7 @@
     $("#s1-email").on("input", checkComplete);
     $("#s1-gender").on("change", checkComplete);
     $("#s1-age").on("change", checkComplete);
-    
+
     function checkComplete() {
       if ($("#s1-name").val().length > 1 && $("#s1-email").val().length > 1 && $("#s1-gender").val() != null && $("#s1-age").val() != null) {
         $("#s1-submit").prop("disabled", false);
@@ -669,7 +797,7 @@
           $("#info").css("top", "50%");
           $("#info").css("left", "15%");
           $("#info").css("display", "block");
-          $("#infop").text("Clicking on a marker gives you detailed information about a location. Check out the information below and click this to continue!");
+          $("#infop").html("Clicking on a marker gives you detailed information about a location. Check out the information below and <strong>click this to continue</strong>!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-down");
           $("#map").css("z-index", "auto");
           const info = MARKERS[id];
@@ -706,7 +834,14 @@
           for (let i = 0; i < 5 - info["ratings"]["location"]; i++) {
             $("#pinfolo").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
           }
-
+          $("#has").html("");
+          for (let i = 0; i < info["info"]["has"].length; i++) {
+            $("#has").append(`<p><i class="fa-solid fa-check check"></i> ${info["info"]["has"][i]}</p>`)
+          }
+          $("#lacks").html("");
+          for (let i = 0; i < info["info"]["lacks"].length; i++) {
+            $("#lacks").append(`<p><i class="fa-solid fa-xmark x"></i> ${info["info"]["lacks"][i]}</p>`)
+          }
 
           $("#pinfovi").html("")
           for (let i = 0; i < info["ratings"]["vibe"]; i++) {
@@ -786,7 +921,15 @@
           $("#pinfovi").append("<i class='fa-solid fa-star' style='color:rgb(69, 69, 69);'></i>")
         }
         $("#pinforcount").text(info["reviews"].length);
-        $("#pinforeviews").html("")
+        $("#pinforeviews").html("");
+        $("#has").html("");
+        for (let i = 0; i < info["info"]["has"].length; i++) {
+          $("#has").append(`<p><i class="fa-solid fa-check check"></i> ${info["info"]["has"][i]}</p>`)
+        }
+        $("#lacks").html("");
+        for (let i = 0; i < info["info"]["lacks"].length; i++) {
+          $("#lacks").append(`<p><i class="fa-solid fa-xmark x"></i> ${info["info"]["lacks"][i]}</p>`)
+        }
         for (let i = 0; i < info["reviews"].length; i++) {
           let stars = "";
           for (let j = 0; j < info["reviews"][i]["rating"]; j++) {
@@ -850,7 +993,7 @@
           $("#info").css("top", "75%");
           $("#info").css("left", "10%");
           $("#info").css("display", "block");
-          $("#infop").text("First up we have an interactive map that shows you all nearby locations. Trying playing around with the map and click on any location!");
+          $("#infop").html("First up we have an interactive map that has pins representing nearby restrooms. Trying playing around with the map and <strong>click on any restroom</strong>!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-up");
           $("#map").css("z-index", 600);
 
@@ -869,7 +1012,7 @@
           $("#info").css("top", "50%");
           $("#info").css("left", "5%");
           $("#info").css("display", "block");
-          $("#infop").text("Besides the map, you also have a live list of all locations nearby! Click on any location to get more information about them!");
+          $("#infop").html("Besides the map, you also have a live list of all restrooms nearby! <strong>Click on any location</strong> to get more information about them!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-down");
           $("#placeinfo").animate({ opacity: 0 }, 500, function () {
             $("#placeinfo").css("z-index", 40);
@@ -896,6 +1039,8 @@
 
         })
         $("#ocontent").css("z-index", 50);
+        $("#feedback").css("display", "flex")
+        $("#feedback").animate({ opacity: 1 }, 500);
 
       }
     })
@@ -908,7 +1053,7 @@
           $("#info").css("top", "50%");
           $("#info").css("left", "5%");
           $("#info").css("display", "block");
-          $("#infop").text("Besides the map, you also have a live list of all locations nearby! Click on any location to get more information about them!");
+          $("#infop").html("Besides the map, you also have a live list of all locations nearby! <strong>Click on any location</strong> to get more information about them!");
           $("#infoicon").attr('class', "fa-solid fa-arrow-down");
           $("#placeinfo").animate({ opacity: 0 }, 500, function () {
             $("#placeinfo").css("z-index", 40);
