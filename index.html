@@ -258,6 +258,19 @@
     const el = document.createElement('div');
     el.className = 'marker';
 
+    let locdata = null;
+
+    fetch('https://ipapi.co/json')
+        .then(response => response.json())
+        .then(data => {
+          locdata = [data.latitude, data.longitude];
+          // Use the data as needed
+        })
+        .catch(error => {
+          console.error("Error fetching IP location:", error);
+        });
+
+
     // Add the marker to the map
     const center = new mapboxgl.Marker(el)
       .setLngLat([-73.967276, 40.779462])
@@ -790,6 +803,23 @@
         $("#s1-submit").prop("disabled", true);
       }
     }
+
+    $("#s1-submit").click(function () {
+      fetch("http://159.65.179.28/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "name": $("#s1-name").val(),
+          "email": $("#s1-email").val(),
+          "gender": $("#s1-gender").val(),
+          "age": $("#s1-age").val(),
+          "lat": locdata[0],
+          "long": locdata[1]
+        })
+      }).then(() => console.log("Success!")).catch(err => console.log(err));
+    })
     function markerClick(el) {
 
       const id = ($(el).attr("id"));
